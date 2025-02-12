@@ -5,9 +5,7 @@
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "dev": "nodemon -x node --no-warnings --experimental-specifier-resolution=node --loader ts-node/esm index.ts",
-    "start": "node --es-module-specifier-resolution=node ./dist/index.js"
+    "dev": "nodemon -x node --no-warnings --experimental-specifier-resolution=node --loader ts-node/esm index.ts"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
