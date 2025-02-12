@@ -12,3 +12,8 @@ export interface Order {
     OrderNumber: number;
     Destination: string;
 }
+
+export interface TransportOrdersRequest {
+    ArrivalLocation: string;
+    Day: number;
+}
