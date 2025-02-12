@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import { getFreightSchedule, getOrders } from './client';
-import { Order, Schedule, ScheduledFreight, TransportOrdersRequest } from './models';
+import { Schedule, ScheduledFreight, TransportOrdersRequest } from './models';
 
 const app = express();
 app.use(express.json());
@@ -66,7 +66,7 @@ app.get('/scheduleOrders', (_req: Request, res: Response) => {
 });
 
 // Not in the spec but useful for testing
-app.get('/allTransports', (req: Request, res: Response) => {
+app.get('/allTransports', (_req: Request, res: Response) => {
     res.json(scheduledFreight);
 });
 
@@ -76,7 +76,11 @@ app.get('/transportOrders', (req: Request<{}, {}, TransportOrdersRequest>, res: 
     // Therefore we have no way of referencing a specific freight if there were to be more than one freight to a destination in a single day.
     // In the future we could return all freights on the day or change how freights are identified i.e. unique ids
     let freight = scheduledFreight.find(f => f.ArrivalLocation == req.body.ArrivalLocation && f.Day == req.body.Day);
-    res.json(freight.LoadedOrders);
+
+    if (!freight)
+        res.status(404)
+
+    res.json(freight?.LoadedOrders ?? []);
 });
 
 app.listen(port, () => {
